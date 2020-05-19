@@ -1,65 +1,68 @@
-const _table = document.querySelector('#table')
-const tableX = _table.clientWidth
-const tableY = _table.clientHeight
-const xDiv = 30
-const yDiv = Math.floor((30 * tableY) / tableX)
-const STEPX = Math.floor(tableX / xDiv)
-const STEPY = Math.floor(tableY / yDiv)
+/**
+ *  =========[ SNAKE GAME ]==========
+ * Just for fun. Play with your keyboard (up, down, left, right)
+ * Author: Me 😁😁
+ * I allow you to use this code. It's 100% opensource
+ * If you wanted to collaborate, then you are welcome
+ * 
+ * All what I want is a little star
+ */
+const _table = document.querySelector('#table') // The game zone in the document
+const tableX = _table.clientWidth // The client width
+const tableY = _table.clientHeight // The client height
+const xDiv = 30 // The number of squares or steps on x axis
+const yDiv = Math.floor((30 * tableY) / tableX) // The number of squares or steps on y axis
+const STEPX = Math.floor(tableX / xDiv) // Step value on x axis
+const STEPY = Math.floor(tableY / yDiv) // Step value in y axis
+// Directions values
 const Direction = {
     LEFT: 4,
     RIGHT: 6,
     TOP: 8,
     BOTTOM: 2
 }
+// Differents speeds (in ms)
 const Speed = {
-    LOW: 700,
-    MEDIUM: 500,
-    FAST: 300,
-    FASTEST: 200
+    LOW: 500,
+    MEDIUM: 300,
+    FAST: 200,
+    FASTEST: 100
 }
+// Levels
 const Levels = [{
-        title: 'Facile',
+        title: 'Easy',
         speed: Speed.LOW,
-        score: 1
+        score: 5
     },
     {
-        title: 'Moyen',
+        title: 'Normal',
         speed: Speed.MEDIUM,
-        score: 2
+        score: 10
     },
     {
-        title: 'Difficile',
+        title: 'Hard',
         speed: Speed.FAST,
-        score: 3
+        score: 15
     },
     {
-        title: 'Compliqué',
+        title: 'Very Hard',
         speed: Speed.FASTEST,
-        score: 4
+        score: 20
     }
 ]
-const colors = {
-    PRIMARY: 'orange',
-    DEFAULT: 'lightgray',
-    ACCENT: 'red'
-}
 
-
-let pointX = 0
-let pointY = 0
 let scores = 0
 
 class Snake {
 
     constructor(props) {
         this.level = props.level - 1 || 1
-        this.dot = new Point()
+        this.mouse = new Point()
         this.initializeComponenets()
-
-        this.start()
     }
 
     initializeComponenets() {
+        document.querySelector('#level').innerHTML = Levels[this.level].title
         this.direction = Direction.RIGHT;
         this.blocks = [
             new Block({
@@ -77,24 +80,29 @@ class Snake {
 
     }
 
+    gameOver() {
+        alert('Game Over !')
+        this.stop()
+    }
+
     walk() {
 
-        const alignedX = this.dot.position.x === this.blocks[0].position.x
-        const alignedY = this.dot.position.y === this.blocks[0].position.y
+        const alignedX = this.mouse.position.x === this.blocks[0].position.x
+        const alignedY = this.mouse.position.y === this.blocks[0].position.y
 
         if ( alignedX && alignedY ) {
             this.increase()
-            this.dot.updatePosition()
+            this.mouse.updatePosition()
             scores += Levels[this.level].score
 
             document.querySelector('#score').innerHTML = `${scores} ${scores > 1 ? 'points' : 'point'}`
 
-            console.log('Nice !')
         }
 
         this.blocks.forEach(_ => {
             _table.appendChild(_.el)
         })
+
         this.blocks.forEach((b, i) => {
             let position
 
@@ -151,6 +159,8 @@ class Snake {
     }
 
     start() {
+        this.launch()
+        
         this.timer = setInterval(_ => {
             const maxX = STEPX * 2
             const maxY = STEPY * 2
@@ -159,8 +169,7 @@ class Snake {
             const d = this.direction
 
             if ((hx >= tableX && d === Direction.RIGHT) || (hx <= maxX && d === Direction.LEFT) || (hy >= tableY && d === Direction.BOTTOM) || (hy <= maxY && d === Direction.TOP)) {
-                alert('Game over !')
-                this.stop()
+                this.gameOver()
             } else {
                 let touched = false
                 let count = 1
@@ -171,8 +180,7 @@ class Snake {
                 }
 
                 if (touched) {
-                    alert('Game over !')
-                    this.stop()
+                    this.gameOver()
                 } else {
                     this.walk()
                 }
@@ -186,6 +194,38 @@ class Snake {
         clearInterval(this.timer)
     }
 
+    launch () {
+    
+        document.body.addEventListener('keydown', event => {
+            switch (event.keyCode) {
+    
+                case 37:
+                    if (this.direction !== Direction.RIGHT){
+    
+                        this.direction = Direction.LEFT
+                    } 
+                    break
+                case 38:
+                    if (this.direction !== Direction.BOTTOM)
+                    {
+                        this.direction = Direction.TOP
+                    } 
+                    break
+                case 39:
+                    if (this.direction !== Direction.LEFT) {
+                        this.direction = Direction.RIGHT
+                    } 
+                    break
+                case 40:
+                    if (this.direction !== Direction.TOP)
+                    {
+                        this.direction = Direction.BOTTOM
+                    } 
+                    break
+            }
+        })
+    
+    }    
 
 }
 
@@ -248,7 +288,7 @@ class Point {
         this.el.style.width = STEPX + 'px'
         this.el.style.height = STEPY + 'px'
         
-        this.el.className = 'block point'
+        this.el.className = 'block mouse'
 
         this.updatePosition()
 
@@ -266,44 +306,3 @@ class Point {
     }
 
 }
-
-const launtch = _ => {
-    
-    const snake = new Snake({
-        level: 4
-    })
-
-    document.body.addEventListener('keydown', event => {
-        switch (event.keyCode) {
-
-            case 37:
-                if (snake.direction !== Direction.RIGHT){
-
-                    snake.direction = Direction.LEFT
-                } 
-                break
-            case 38:
-                if (snake.direction !== Direction.BOTTOM)
-                {
-                    snake.direction = Direction.TOP
-                } 
-                break
-            case 39:
-                if (snake.direction !== Direction.LEFT) {
-                    snake.direction = Direction.RIGHT
-                } 
-                break
-            case 40:
-                if (snake.direction !== Direction.TOP)
-                {
-                    snake.direction = Direction.BOTTOM
-                } 
-                break
-        }
-    })
-
-}
-
-window.onload = launtch
-
-console.log(xDiv)

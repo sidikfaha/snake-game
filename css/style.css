@@ -1,0 +1,32 @@
+body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.block{
+    background-color: rgba(9, 139, 53, 0.3);
+    box-sizing: border-box;
+    box-shadow: gray 0 0 15px;
+    position: absolute;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s cubic-bezier(0, 0.5, 0.1, 1);
+}
+.is-first{
+    z-index: 2;
+    border-radius: 50%;
+    background-image: url('../img/snake.png');
+    background-color: rgba(9, 139, 53, 0.3);
+    background-size: cover;
+}
+.mouse{
+    background-image: url('../img/mouse.webp');
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+    background-size: cover;
+}
+#table{
+    border: 2px red solid;
+    position: relative;
+}

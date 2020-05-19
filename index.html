@@ -1,77 +1,18 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake</title>
-</head>
-<body>
-    <style>
-        body{
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .block{
-            background-color: rgba(9, 139, 53, 0.3);
-            box-sizing: border-box;
-            box-shadow: gray 0 0 15px;
-            position: absolute;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: .3s cubic-bezier(0, 0.5, 0.1, 1);
-        }
-        .is-first{
-            z-index: 2;
-            border-radius: 50%;
-            background-image: url('snake.png');
-            background-color: rgba(9, 139, 53, 0.3);
-            background-size: cover;
-        }
-        .point{
-            background-image: url('mouse.webp');
-            background-color: rgba(0,0,0,0);
-            box-shadow: none;
-            background-size: cover;
-        }
-        .table{
-            height: 100vh;
-            position: relative;
-        }
-        .top{
-            background: rgba(255,255,255, .2);
-            color: aqua;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            list-style: none;
-        }
-        .top li{
-            padding: 5px 25px;
-        }
-    </style>
+<!doctyle html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Snake Game</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <p>Level : <span id="level"> </p>
+        <p>Score : <span id="score"> </p>
+        <div style="height: 400px;" id="table"></div>
 
-    <div id="table" class="table">
-
-        <ul class="top">
-            <li>
-                Niveau : <strong id="level">0</strong>
-            </li>
-            <li>
-                Score : <strong id="score">0 point</strong>
-            </li>
-            <li style="margin-left: auto;">&copy; Joe Sidik Faha</li>
-        </ul>
-
-    </div>
-
-    
-
-    <script src="index.js"></script>
-</body>
+        <script src="js/snake.js"></script>
+        <script>
+            const game = new Snake( {level: 3} ).start()
+        </script>
+    </body>
 </html>
