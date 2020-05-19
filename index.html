@@ -1,18 +1,32 @@
-<!doctyle html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Snake Game</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <p>Level : <span id="level"> </p>
-        <p>Score : <span id="score"> </p>
-        <div style="height: 400px;" id="table"></div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-        <script src="js/snake.js"></script>
-        <script>
-            const game = new Snake( {level: 3} ).start()
-        </script>
-    </body>
+    <div id="table" style="height: 600px;">
+
+        <ul>
+            <li>
+                Level : <strong id="level">0</strong>
+            </li>
+            <li>
+                Score : <strong id="score">0 mouse</strong>
+            </li>
+            <li style="margin-left: auto;">&copy; Joe Sidik Faha</li>
+        </ul>
+
+    </div>
+
+    
+
+    <script src="js/snake.js"></script>
+    <script>
+        const game = new Snake({level: 4}).start()
+    </script>
+</body>
 </html>
