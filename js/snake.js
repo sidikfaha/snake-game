@@ -6,6 +6,8 @@
  * If you wanted to collaborate, then you are welcome
  * 
  * All what I want is a little star
+ * For second release by @Dy05.
+ * Adding pause with Echap key and Restart game option witthou any Style :-P
  */
 const _table = document.querySelector('#table') // The game zone in the document
 const tableX = _table.clientWidth // The client width
@@ -49,20 +51,41 @@ const Levels = [{
         speed: Speed.FASTEST,
         score: 20
     }
-]
-
-let scores = 0
+];
+var isPaused;
+var scoreDom = document.querySelector('#score');
+var state = {
+    scoresInternal: 0,
+    scoresListener: function(val) {
+        scoreDom.innerHTML = `${val} ${val > 1 ? 'points' : 'point'}`;    
+    },
+    set scores(val) {
+        this.scoresInternal = val;
+        this.scoresListener(val);
+    },
+    get scores() {
+        return this.scoresInternal;
+    },
+    registerListener: function(listener) {
+        this.scoresListener = listener;
+    }
+}
 
 class Snake {
 
     constructor(props) {
-        this.level = props.level - 1 || 1
-        this.mouse = new Point()
-        this.initializeComponenets()
+        this.level = props.level - 1 || 1;
+        this.initializeComponents();
     }
 
-    initializeComponenets() {
-        document.querySelector('#level').innerHTML = Levels[this.level].title
+    initializeComponents() {
+        if (isPaused === undefined) {
+            isPaused = false;
+        } else {
+            document.querySelectorAll('.block').forEach(elmt => elmt.remove());
+        }
+        this.mouse = new Point();
+        document.querySelector('#level').innerHTML = Levels[this.level].title;
         this.direction = Direction.RIGHT;
         this.blocks = [
             new Block({
@@ -81,8 +104,12 @@ class Snake {
     }
 
     gameOver() {
-        alert('Game Over !')
-        this.stop()
+        if (confirm('Game Over ! Do you want to restart ?')) {
+            state.scores = 0;
+            this.initializeComponents();
+        } else {
+            this.stop();
+        }
     }
 
     walk() {
@@ -93,10 +120,7 @@ class Snake {
         if ( alignedX && alignedY ) {
             this.increase()
             this.mouse.updatePosition()
-            scores += Levels[this.level].score
-
-            document.querySelector('#score').innerHTML = `${scores} ${scores > 1 ? 'points' : 'point'}`
-
+            state.scores = state.scores + Levels[this.level].score
         }
 
         this.blocks.forEach(_ => {
@@ -159,8 +183,20 @@ class Snake {
     }
 
     start() {
-        this.launch()
-        
+        this.launch();
+        this.play();
+        document.body.addEventListener('keydown', event => {
+            if (event.keyCode == 27) {
+                if (isPaused) {
+                    this.pauseStart();
+                } else {
+                    this.pauseStop();
+                }
+            }
+        });
+    }
+
+    play() {
         this.timer = setInterval(_ => {
             const maxX = STEPX * 2
             const maxY = STEPY * 2
@@ -186,12 +222,24 @@ class Snake {
                 }
 
             }
-        }, Levels[this.level].speed)
+        }, Levels[this.level].speed);
+    }
 
+    pauseStop(){
+        // Ici on peut creer un div ou une bonne alert qui met le score avec le bouton qui active le confirm
+        if (confirm("Voulez-vous reprendre la partie ?")) {
+            isPaused = false;
+            this.play();    
+        }
+    }
+
+    pauseStart(){
+        isPaused = true;
+        clearInterval(this.timer);
     }
 
     stop(){
-        clearInterval(this.timer)
+        clearInterval(this.timer);
     }
 
     launch () {
@@ -238,16 +286,20 @@ class Block {
         this.isFirst = props.isFirst ? props.isFirst : false
         this.range = props.range ? props.range : -1
 
-        this.initializeComponenets()
+        this.initializeComponents()
     }
 
-    initializeComponenets() {
+    initializeComponents() {
         this.el = document.createElement('span')
         this.el.className = 'block'
         this.el.style.width = this.sizeX  + 'px'
         this.el.style.height = this.sizeY  + 'px'
 
-        if (this.isFirst) { this.el.classList.add('is-first') } 
+        if (this.isFirst) { 
+            this.el.classList.add('is-first');
+        } else {
+            this.el.classList.add('is-body');
+        }
 
         if (this.range > 0) {
             this.el.innerText = this.range
@@ -281,10 +333,10 @@ class Point {
         this.el = document.createElement('span')
         this.position = {x: 0, y: 0}
         
-        this.initializeComponenets()
+        this.initializeComponents()
     }
 
-    initializeComponenets() {
+    initializeComponents() {
         this.el.style.width = STEPX + 'px'
         this.el.style.height = STEPY + 'px'
         
@@ -306,3 +358,5 @@ class Point {
     }
 
 }
+
+
