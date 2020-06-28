@@ -1,13 +1,13 @@
 /**
  *  =========[ SNAKE GAME ]==========
  * Just for fun. Play with your keyboard (up, down, left, right)
- * Author: Me 😁😁
+ * Author: @joecamer , @Dy05
  * I allow you to use this code. It's 100% opensource
  * If you wanted to collaborate, then you are welcome
  * 
  * All what I want is a little star
  * For second release by @Dy05.
- * Adding pause with Echap key and Restart game option witthou any Style :-P
+ * Adding pause with Echap key and Restart game option withou any Style :-P
  */
 const _table = document.querySelector('#table') // The game zone in the document
 const tableX = _table.clientWidth // The client width
