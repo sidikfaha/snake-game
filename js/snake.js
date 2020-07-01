@@ -4,7 +4,7 @@
  * Author: @joecamer , @Dy05
  * I allow you to use this code. It's 100% opensource
  * If you wanted to collaborate, then you are welcome
- * 
+ *
  * All what I want is a little star
  * For second release by @Dy05.
  * Adding pause with Echap key and Restart game option withou any Style :-P
@@ -32,10 +32,10 @@ const Speed = {
 }
 // Levels
 const Levels = [{
-        title: 'Easy',
-        speed: Speed.LOW,
-        score: 5
-    },
+    title: 'Easy',
+    speed: Speed.LOW,
+    score: 5
+},
     {
         title: 'Normal',
         speed: Speed.MEDIUM,
@@ -51,42 +51,42 @@ const Levels = [{
         speed: Speed.FASTEST,
         score: 20
     }
-];
-var isPaused;
-var scoreDom = document.querySelector('#score');
+]
+var isPaused
+var scoreDom = document.querySelector('#score')
 var state = {
     scoresInternal: 0,
-    scoresListener: function(val) {
-        scoreDom.innerHTML = `${val} ${val > 1 ? 'points' : 'point'}`;    
+    scoresListener: function (val) {
+        scoreDom.innerHTML = `${val} ${val > 1 ? 'points' : 'point'}`
     },
     set scores(val) {
-        this.scoresInternal = val;
-        this.scoresListener(val);
+        this.scoresInternal = val
+        this.scoresListener(val)
     },
     get scores() {
-        return this.scoresInternal;
+        return this.scoresInternal
     },
-    registerListener: function(listener) {
-        this.scoresListener = listener;
+    registerListener: function (listener) {
+        this.scoresListener = listener
     }
 }
 
 class Snake {
 
     constructor(props) {
-        this.level = props.level - 1 || 1;
-        this.initializeComponents();
+        this.level = props.level - 1 || 1
+        this.initializeComponents()
     }
 
     initializeComponents() {
         if (isPaused === undefined) {
-            isPaused = false;
+            isPaused = false
         } else {
-            document.querySelectorAll('.block').forEach(elmt => elmt.remove());
+            document.querySelectorAll('.block').forEach(elmt => elmt.remove())
         }
-        this.mouse = new Point();
-        document.querySelector('#level').innerHTML = Levels[this.level].title;
-        this.direction = Direction.RIGHT;
+        this.mouse = new Point()
+        document.querySelector('#level').innerHTML = Levels[this.level].title
+        this.direction = Direction.RIGHT
         this.blocks = [
             new Block({
                 position: {
@@ -98,18 +98,42 @@ class Snake {
         ]
 
         for (let i = 0; i < this.level * 2; i++) {
-            this.blocks.push(new Block({position: {x: 0, y: STEPY}, range: i +1}))
+            this.blocks.push(new Block({position: {x: 0, y: STEPY}, range: i + 1}))
         }
 
     }
 
     gameOver() {
-        if (confirm('Game Over ! Do you want to restart ?')) {
-            state.scores = 0;
-            this.initializeComponents();
-        } else {
-            this.stop();
+
+        const gameOver_box = document.querySelector("#gameOver-box")
+        const yesBtn = document.querySelector("#yesBtn")
+        const noBtn = document.querySelector("#noBtn")
+        const answers = {
+            yes: () => {
+                state.scores = 0
+                this.initializeComponents()
+                this.start()
+                renew()
+            },
+            no: () => {
+                this.stop()
+                renew()
+            }
         }
+        const renew = () => {
+            gameOver_box.classList.remove("animate__bounceIn")
+            gameOver_box.classList.add("animate__bounceOut")
+            yesBtn.removeEventListener('click', answers.yes)
+            noBtn.removeEventListener('click', answers.no)
+        }
+
+        this.stop()
+
+        yesBtn.addEventListener('click', answers.yes)
+        noBtn.addEventListener('click', answers.no)
+
+        gameOver_box.className = "gb-visible animate__animated animate__bounceIn"
+
     }
 
     walk() {
@@ -117,7 +141,7 @@ class Snake {
         const alignedX = this.mouse.position.x === this.blocks[0].position.x
         const alignedY = this.mouse.position.y === this.blocks[0].position.y
 
-        if ( alignedX && alignedY ) {
+        if (alignedX && alignedY) {
             this.increase()
             this.mouse.updatePosition()
             state.scores = state.scores + Levels[this.level].score
@@ -139,28 +163,28 @@ class Snake {
                             y: b.position.y
                         }
                         this.blocks[0].el.style.transform = 'rotate(90deg)'
-                        break;
+                        break
                     case Direction.RIGHT:
                         position = {
                             x: b.position.x + STEPX,
                             y: b.position.y
                         }
                         this.blocks[0].el.style.transform = 'rotate(-90deg)'
-                        break;
+                        break
                     case Direction.TOP:
                         position = {
                             x: b.position.x,
                             y: b.position.y - STEPY
                         }
                         this.blocks[0].el.style.transform = 'rotate(180deg)'
-                        break;
+                        break
                     case Direction.BOTTOM:
                         position = {
                             x: b.position.x,
                             y: b.position.y + STEPY
                         }
                         this.blocks[0].el.style.transform = 'rotate(-360deg)'
-                        break;
+                        break
                 }
 
             } else {
@@ -183,21 +207,21 @@ class Snake {
     }
 
     start() {
-        this.launch();
-        this.play();
+        this.launch()
+        this.play()
         document.body.addEventListener('keydown', event => {
-            if (event.keyCode == 27) {
+            if (event.keyCode === 27) {
                 if (isPaused) {
-                    this.pauseStart();
+                    this.pauseStart()
                 } else {
-                    this.pauseStop();
+                    this.pauseStop()
                 }
             }
-        });
+        })
     }
 
     play() {
-        this.timer = setInterval(_ => {
+        this.timer = setInterval(() => {
             const maxX = STEPX * 2
             const maxY = STEPY * 2
             const hx = this.blocks[0].position.x + maxX
@@ -222,58 +246,56 @@ class Snake {
                 }
 
             }
-        }, Levels[this.level].speed);
+        }, Levels[this.level].speed)
     }
 
-    pauseStop(){
+    pauseStop() {
         // Ici on peut creer un div ou une bonne alert qui met le score avec le bouton qui active le confirm
         if (confirm("Voulez-vous reprendre la partie ?")) {
-            isPaused = false;
-            this.play();    
+            isPaused = false
+            this.play()
         }
     }
 
-    pauseStart(){
-        isPaused = true;
-        clearInterval(this.timer);
+    pauseStart() {
+        isPaused = true
+        clearInterval(this.timer)
     }
 
-    stop(){
-        clearInterval(this.timer);
+    stop() {
+        clearInterval(this.timer)
     }
 
-    launch () {
-    
+    launch() {
+
         document.body.addEventListener('keydown', event => {
             switch (event.keyCode) {
-    
+
                 case 37:
-                    if (this.direction !== Direction.RIGHT){
-    
+                    if (this.direction !== Direction.RIGHT) {
+
                         this.direction = Direction.LEFT
-                    } 
+                    }
                     break
                 case 38:
-                    if (this.direction !== Direction.BOTTOM)
-                    {
+                    if (this.direction !== Direction.BOTTOM) {
                         this.direction = Direction.TOP
-                    } 
+                    }
                     break
                 case 39:
                     if (this.direction !== Direction.LEFT) {
                         this.direction = Direction.RIGHT
-                    } 
+                    }
                     break
                 case 40:
-                    if (this.direction !== Direction.TOP)
-                    {
+                    if (this.direction !== Direction.TOP) {
                         this.direction = Direction.BOTTOM
-                    } 
+                    }
                     break
             }
         })
-    
-    }    
+
+    }
 
 }
 
@@ -292,13 +314,13 @@ class Block {
     initializeComponents() {
         this.el = document.createElement('span')
         this.el.className = 'block'
-        this.el.style.width = this.sizeX  + 'px'
-        this.el.style.height = this.sizeY  + 'px'
+        this.el.style.width = this.sizeX + 'px'
+        this.el.style.height = this.sizeY + 'px'
 
-        if (this.isFirst) { 
-            this.el.classList.add('is-first');
+        if (this.isFirst) {
+            this.el.classList.add('is-first')
         } else {
-            this.el.classList.add('is-body');
+            this.el.classList.add('is-body')
         }
 
         if (this.range > 0) {
@@ -312,8 +334,8 @@ class Block {
             y: 0
         }
 
-        this.el.style.top = this.position.y  + 'px'
-        this.el.style.left = this.position.x  + 'px'
+        this.el.style.top = this.position.y + 'px'
+        this.el.style.left = this.position.x + 'px'
     }
 
     updatePosition(position) {
@@ -321,8 +343,8 @@ class Block {
         this.position = position // Overridding actual position
 
         // Updating element on front-end
-        this.el.style.top = this.position.y  + 'px'
-        this.el.style.left = this.position.x  + 'px'
+        this.el.style.top = this.position.y + 'px'
+        this.el.style.left = this.position.x + 'px'
     }
 
 }
@@ -332,14 +354,14 @@ class Point {
     constructor() {
         this.el = document.createElement('span')
         this.position = {x: 0, y: 0}
-        
+
         this.initializeComponents()
     }
 
     initializeComponents() {
         this.el.style.width = STEPX + 'px'
         this.el.style.height = STEPY + 'px'
-        
+
         this.el.className = 'block mouse'
 
         this.updatePosition()
@@ -349,7 +371,10 @@ class Point {
     }
 
     updatePosition() {
-        this.position = {x: Math.round(Math.random() * (xDiv-1)) * STEPX, y: Math.round(Math.random() * (yDiv - 1)) * STEPY}
+        this.position = {
+            x: Math.round(Math.random() * (xDiv - 1)) * STEPX,
+            y: Math.round(Math.random() * (yDiv - 1)) * STEPY
+        }
 
         this.el.style.top = this.position.y + 'px'
         this.el.style.left = this.position.x + 'px'
