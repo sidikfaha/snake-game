@@ -1,3 +1,8 @@
+:root{
+    --primary-color: #4696be;
+}
+
+
 *{
     box-sizing: border-box;
     color: #454545;
@@ -8,7 +13,7 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 .block{
-    background-color: rgba(9, 139, 53, 0.3);
+    background-color: var(--primary-color);
     box-sizing: border-box;
     position: absolute;
     border-radius: 5px;
@@ -20,8 +25,8 @@ body{
 .is-first{
     z-index: 2;
     border-radius: 50%;
-    background-image: url('../img/snake.png');
-    background-color: rgba(9, 139, 53, 0.3);
+    /*background-image: url('../img/snake.png');*/
+    background-color: #8c3c3c;
     background-size: cover;
 }
 .mouse{
@@ -33,6 +38,7 @@ body{
 #table{
     border: 2px red solid;
     position: relative;
+    height: 100vh;
 }
 
 
@@ -74,9 +80,10 @@ body{
     padding: 20px;
     border: none;
     color: #ffffff;
+    border-radius: 30px;
 }
 #yesBtn{
-    background-color: #3c8c3c;
+    background-color: var(--primary-color);
 }
 #noBtn {
     background-color: #8c3c3c;

@@ -12,8 +12,8 @@
 const _table = document.querySelector('#table') // The game zone in the document
 const tableX = _table.clientWidth // The client width
 const tableY = _table.clientHeight // The client height
-const xDiv = 30 // The number of squares or steps on x axis
-const yDiv = Math.floor((30 * tableY) / tableX) // The number of squares or steps on y axis
+const xDiv = 40 // The number of squares or steps on x axis
+const yDiv = Math.floor((xDiv * tableY) / tableX) // The number of squares or steps on y axis
 const STEPX = Math.floor(tableX / xDiv) // Step value on x axis
 const STEPY = Math.floor(tableY / yDiv) // Step value in y axis
 // Directions values
@@ -31,11 +31,12 @@ const Speed = {
     FASTEST: 100
 }
 // Levels
-const Levels = [{
-    title: 'Easy',
-    speed: Speed.LOW,
-    score: 5
-},
+const Levels = [
+    {
+        title: 'Easy',
+        speed: Speed.LOW,
+        score: 5
+    },
     {
         title: 'Normal',
         speed: Speed.MEDIUM,
@@ -52,9 +53,10 @@ const Levels = [{
         score: 20
     }
 ]
-var isPaused
-var scoreDom = document.querySelector('#score')
-var state = {
+
+let isPaused
+let scoreDom = document.querySelector('#score')
+let state = {
     scoresInternal: 0,
     scoresListener: function (val) {
         scoreDom.innerHTML = `${val} ${val > 1 ? 'points' : 'point'}`
@@ -70,6 +72,8 @@ var state = {
         this.scoresListener = listener
     }
 }
+
+let scoreList = []
 
 class Snake {
 
@@ -325,7 +329,7 @@ class Block {
 
         if (this.range > 0) {
             this.el.innerText = this.range
-        } else if (this.range == 0) {
+        } else if (this.range === 0) {
             this.el.innerText = 'x'
         }
 
