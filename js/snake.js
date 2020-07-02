@@ -135,6 +135,7 @@ class Snake {
         }
 
         this.stop()
+        document.body.removeEventListener('keydown', this.keyboardEscEvent)
 
         yesBtn.addEventListener('click', answers.yes)
         noBtn.addEventListener('click', answers.no)
@@ -215,17 +216,7 @@ class Snake {
     start() {
         this.launch()
         this.play()
-        document.body.addEventListener('keydown', event => {
-            if (event.keyCode === 27) {
-                if (!isFinished) {
-                    if (isPaused) {
-                        this.pauseStop()
-                    } else {
-                        this.pauseStart()
-                    }
-                }
-            }
-        })
+        document.body.addEventListener('keydown', this.keyboardEscEvent)
     }
 
     play() {
@@ -335,6 +326,18 @@ class Snake {
                     this.direction = Direction.BOTTOM
                 }
                 break
+        }
+    }
+
+    keyboardEscEvent = event => {
+        if (event.keyCode === 27) {
+            if (!isFinished) {
+                if (isPaused) {
+                    this.pauseStop()
+                } else {
+                    this.pauseStart()
+                }
+            }
         }
     }
 
