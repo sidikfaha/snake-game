@@ -205,8 +205,7 @@ class Snake {
 
     increase() {
         this.blocks.push(new Block({
-            position: this.blocks[this.blocks.length - 1]._position,
-            range: this.blocks.length
+            position: this.blocks[this.blocks.length - 1]._position
         }))
     }
 
@@ -310,7 +309,6 @@ class Block {
         this.sizeY = STEPY
         this.position = props.position
         this.isFirst = props.isFirst ? props.isFirst : false
-        this.range = props.range ? props.range : -1
 
         this.initializeComponents()
     }
@@ -325,12 +323,6 @@ class Block {
             this.el.classList.add('is-first')
         } else {
             this.el.classList.add('is-body')
-        }
-
-        if (this.range > 0) {
-            this.el.innerText = this.range
-        } else if (this.range === 0) {
-            this.el.innerText = 'x'
         }
 
         this._position = {
