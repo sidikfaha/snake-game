@@ -55,6 +55,7 @@ const Levels = [
 ]
 
 let isPaused
+let isFinished = false
 let scoreDom = document.querySelector('#score')
 let state = {
     scoresInternal: 0,
@@ -117,10 +118,12 @@ class Snake {
                 state.scores = 0
                 this.initializeComponents()
                 this.start()
+                isFinished = false
                 renew()
             },
             no: () => {
                 this.stop()
+                isFinished = true
                 renew()
             }
         }
@@ -214,16 +217,21 @@ class Snake {
         this.play()
         document.body.addEventListener('keydown', event => {
             if (event.keyCode === 27) {
-                if (isPaused) {
-                    this.pauseStart()
-                } else {
-                    this.pauseStop()
+                if (!isFinished) {
+                    if (isPaused) {
+                        this.pauseStop()
+                    } else {
+                        this.pauseStart()
+                    }
                 }
             }
         })
     }
 
     play() {
+
+        document.body.addEventListener('keydown', this.keyboardControlEvent)
+
         this.timer = setInterval(() => {
             const maxX = STEPX * 2
             const maxY = STEPY * 2
@@ -254,50 +262,80 @@ class Snake {
 
     pauseStop() {
         // Ici on peut creer un div ou une bonne alert qui met le score avec le bouton qui active le confirm
-        if (confirm("Voulez-vous reprendre la partie ?")) {
-            isPaused = false
-            this.play()
-        }
+        isPaused = false
+
+        document.querySelector("#pause-box").animate([
+            {
+                visibility: "visible",
+                opacity: 1
+            },
+            {
+                visibility: "hidden",
+                opacity: 0
+            }
+        ], {
+            fill: "both",
+            duration: 300,
+            easing: "ease-in"
+        })
+
+        this.play()
     }
 
     pauseStart() {
         isPaused = true
-        clearInterval(this.timer)
+        this.stop()
+
+        document.querySelector("#pause-box").animate([
+            {
+                visibility: "hidden",
+                opacity: 0
+            },
+            {
+                visibility: "visible",
+                opacity: 1
+            }
+        ], {
+            fill: "both",
+            duration: 300,
+            easing: "ease-in"
+        })
     }
 
     stop() {
+        document.body.removeEventListener('keydown', this.keyboardControlEvent)
         clearInterval(this.timer)
     }
 
     launch() {
+        document.body.addEventListener('keydown', this.keyboardControlEvent)
+    }
 
-        document.body.addEventListener('keydown', event => {
-            switch (event.keyCode) {
+    keyboardControlEvent = (event) => {
+        switch (event.keyCode) {
 
-                case 37:
-                    if (this.direction !== Direction.RIGHT) {
+            case 37:
+                if (this.direction !== Direction.RIGHT) {
 
-                        this.direction = Direction.LEFT
-                    }
-                    break
-                case 38:
-                    if (this.direction !== Direction.BOTTOM) {
-                        this.direction = Direction.TOP
-                    }
-                    break
-                case 39:
-                    if (this.direction !== Direction.LEFT) {
-                        this.direction = Direction.RIGHT
-                    }
-                    break
-                case 40:
-                    if (this.direction !== Direction.TOP) {
-                        this.direction = Direction.BOTTOM
-                    }
-                    break
-            }
-        })
-
+                    this.direction = Direction.LEFT
+                }
+                break
+            case 38:
+                if (this.direction !== Direction.BOTTOM) {
+                    this.direction = Direction.TOP
+                }
+                break
+            case 39:
+                if (this.direction !== Direction.LEFT) {
+                    this.direction = Direction.RIGHT
+                }
+                break
+            case 40:
+                if (this.direction !== Direction.TOP) {
+                    this.direction = Direction.BOTTOM
+                }
+                break
+        }
     }
 
 }
@@ -379,5 +417,3 @@ class Point {
     }
 
 }
-
-
