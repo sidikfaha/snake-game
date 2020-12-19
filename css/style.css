@@ -82,8 +82,16 @@ body{
     color: #ffffff;
     border-radius: 30px;
 }
+#yesBtn:focus{
+    background-color: #fff !important;
+}
 #yesBtn{
     background-color: var(--primary-color);
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
 }
 #noBtn {
     background-color: #8c3c3c;
