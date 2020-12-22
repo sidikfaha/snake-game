@@ -112,40 +112,34 @@ class Snake {
 
         const gameOver_box = document.querySelector("#gameOver-box")
         const yesBtn = document.querySelector("#yesBtn")
-        const noBtn = document.querySelector("#noBtn")
         const answers = {
-            yes: () => {
-                state.scores = 0
-                this.initializeComponents()
-                this.start()
-                isFinished = false
-                renew()
+            yes: (event) => {
+                const {keyCode} = event;
+                if (!keyCode || (keyCode && keyCode === 32 )) {
+                    state.scores = 0
+                    this.initializeComponents()
+                    this.start()
+                    isFinished = false
+                    renew()
+                }
             },
-            no: () => {
-                this.stop()
-                isFinished = true
-                renew()
-            }
         }
         const renew = () => {
             gameOver_box.classList.remove("animate__bounceIn")
             gameOver_box.classList.add("animate__bounceOut")
             yesBtn.removeEventListener('click', answers.yes)
-            noBtn.removeEventListener('click', answers.no)
+            document.body.removeEventListener('keydown', answers.yes)
         }
 
         this.stop()
         document.body.removeEventListener('keydown', this.keyboardEscEvent)
-
+        document.body.addEventListener('keydown', answers.yes)
         yesBtn.addEventListener('click', answers.yes)
-        noBtn.addEventListener('click', answers.no)
 
         gameOver_box.className = "gb-visible animate__animated animate__bounceIn"
-
     }
 
     walk() {
-
         const alignedX = this.mouse.position.x === this.blocks[0].position.x
         const alignedY = this.mouse.position.y === this.blocks[0].position.y
 
@@ -220,9 +214,7 @@ class Snake {
     }
 
     play() {
-
         document.body.addEventListener('keydown', this.keyboardControlEvent)
-
         this.timer = setInterval(() => {
             const maxX = STEPX * 2
             const maxY = STEPY * 2
@@ -302,9 +294,8 @@ class Snake {
         document.body.addEventListener('keydown', this.keyboardControlEvent)
     }
 
-    keyboardControlEvent = (event) => {
-        switch (event.keyCode) {
-
+    keyboardControlEvent = ({keyCode}) => {
+        switch (keyCode) {
             case 37:
                 if (this.direction !== Direction.RIGHT) {
 
@@ -329,8 +320,8 @@ class Snake {
         }
     }
 
-    keyboardEscEvent = event => {
-        if (event.keyCode === 27) {
+    keyboardEscEvent = ({keyCode}) => {
+        if (keyCode === 27) {
             if (!isFinished) {
                 if (isPaused) {
                     this.pauseStop()
@@ -340,7 +331,6 @@ class Snake {
             }
         }
     }
-
 }
 
 class Block {
