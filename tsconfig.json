@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    // Babel can safely transpile files in theTypescript project
+    "isolatedModules": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

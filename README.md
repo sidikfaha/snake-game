@@ -41,7 +41,7 @@ game.start()
         <!-- width=100% and height=400px (very important) -->
         <div style="height: 400px;" id="table"></div>
 
-        <script src="js/snake.js"></script>
+        <script src="js/snake.ts"></script>
         <script>
             const game = new Snake( {level: 3} ).start()
         </script>
