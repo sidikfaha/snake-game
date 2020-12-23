@@ -4,13 +4,16 @@
   "description": "Just for fun... I just wanted to realise something but I want to do somethig different of the classic game that every body know.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack --mode=development",
+    "prod": "webpack --mode=production",
+    "watch": "webpack --mode=development --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joecamer/snake-game.git"
   },
-  "author": "",
+  "author": "joecamer",
+  "contributors": ["@Dy05"],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/joecamer/snake-game/issues"
@@ -22,6 +25,7 @@
     "@babel/preset-env": "^7.12.11",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
+    "file-loader": "^6.2.0",
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
     "ts-loader": "^8.0.12",

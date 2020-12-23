@@ -13,7 +13,20 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ['css-loader', 'sass-loader']
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              outputPath: './css',
+              name: 'app.css'
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+
+            }
+          }]
       },
       {
         test: /\.css$/,

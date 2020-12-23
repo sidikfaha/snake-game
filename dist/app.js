@@ -2,6 +2,22 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/ts/bootstrap.ts":
+/*!*****************************!*\
+  !*** ./src/ts/bootstrap.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+__webpack_require__(/*! ../scss/style.scss */ "./src/scss/style.scss");
+
+/***/ }),
+
 /***/ "./src/ts/index.ts":
 /*!*************************!*\
   !*** ./src/ts/index.ts ***!
@@ -16,8 +32,12 @@ Object.defineProperty(exports, "__esModule", ({
 
 var snake_1 = __webpack_require__(/*! ./modules/snake */ "./src/ts/modules/snake.ts");
 
-new snake_1["default"]({
-  level: 2
+__webpack_require__(/*! ./bootstrap */ "./src/ts/bootstrap.ts");
+
+var state_1 = __webpack_require__(/*! ./modules/state */ "./src/ts/modules/state.ts");
+
+new snake_1["default"](new state_1["default"]("#score"), {
+  level: parseInt(prompt("Entrez un niveau entre 1 et 4"))
 }).start();
 
 /***/ }),
@@ -217,29 +237,9 @@ var values_1 = __webpack_require__(/*! ./values */ "./src/ts/modules/values.ts")
 
 var isPaused;
 var isFinished = false;
-var scoreDom = document.querySelector('#score');
-var state = {
-  scoresInternal: 0,
-  scoresListener: function scoresListener(val) {
-    scoreDom.innerHTML = "".concat(val, " ").concat(val > 1 ? 'points' : 'point');
-  },
-
-  set scores(val) {
-    this.scoresInternal = val;
-    this.scoresListener(val);
-  },
-
-  get scores() {
-    return this.scoresInternal;
-  },
-
-  registerListener: function registerListener(listener) {
-    this.scoresListener = listener;
-  }
-};
 
 var Snake = /*#__PURE__*/function () {
-  function Snake(props) {
+  function Snake(state, props) {
     var _this = this;
 
     _classCallCheck(this, Snake);
@@ -293,6 +293,7 @@ var Snake = /*#__PURE__*/function () {
     };
 
     this.level = props.level - 1 || 1;
+    this.state = state;
     this.initializeComponents();
   }
 
@@ -340,7 +341,7 @@ var Snake = /*#__PURE__*/function () {
           var keyCode = event.keyCode;
 
           if (!keyCode || keyCode && keyCode === 32) {
-            state.scores = 0;
+            _this2.state.scores = 0;
 
             _this2.initializeComponents();
 
@@ -376,7 +377,7 @@ var Snake = /*#__PURE__*/function () {
       if (alignedX && alignedY) {
         this.increase();
         this.mouse.updatePosition();
-        state.scores = state.scores + values_1.Levels[this.level].score;
+        this.state.scores += values_1.Levels[this.level].score;
       }
 
       this.blocks.forEach(function (_) {
@@ -530,6 +531,61 @@ exports.default = Snake;
 
 /***/ }),
 
+/***/ "./src/ts/modules/state.ts":
+/*!*********************************!*\
+  !*** ./src/ts/modules/state.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var State = /*#__PURE__*/function () {
+  function State(elSelector) {
+    var _this = this;
+
+    _classCallCheck(this, State);
+
+    this.scoreInternal = 0;
+    this.scoreDOM = document.querySelector(elSelector);
+
+    this.scoreListener = function (val) {
+      _this.scoreDOM.innerHTML = val;
+    };
+  }
+
+  _createClass(State, [{
+    key: "registerScoreListener",
+    value: function registerScoreListener(listener) {
+      this.scoreListener = listener;
+    }
+  }, {
+    key: "scores",
+    get: function get() {
+      return this.scoreInternal;
+    },
+    set: function set(score) {
+      this.scoreInternal = score;
+      this.scoreListener(score);
+    }
+  }]);
+
+  return State;
+}();
+
+exports.default = State;
+
+/***/ }),
+
 /***/ "./src/ts/modules/values.ts":
 /*!**********************************!*\
   !*** ./src/ts/modules/values.ts ***!
@@ -591,6 +647,20 @@ var STEPY = Math.floor(tableY / yDiv); // Step value in y axis
 
 exports.STEPY = STEPY;
 
+/***/ }),
+
+/***/ "./src/scss/style.scss":
+/*!*****************************!*\
+  !*** ./src/scss/style.scss ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "css/app.css");
+
 /***/ })
 
 /******/ 	});
@@ -617,6 +687,67 @@ exports.STEPY = STEPY;
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	// startup

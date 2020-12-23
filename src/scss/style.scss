@@ -2,7 +2,6 @@
   --primary-color: #4696be;
 }
 
-
 * {
   box-sizing: border-box;
   color: #454545;
@@ -44,7 +43,6 @@ body {
   position: relative;
   height: 100vh;
 }
-
 
 /*
     Game over Dialog
@@ -91,10 +89,6 @@ body {
   border-radius: 30px;
 }
 
-#yesBtn:focus {
-  background-color: #fff !important;
-}
-
 #yesBtn {
   background-color: var(--primary-color);
   font-weight: 700;
@@ -102,10 +96,6 @@ body {
   letter-spacing: 3px;
   cursor: pointer;
   text-transform: uppercase;
-}
-
-#noBtn {
-  background-color: #8c3c3c;
 }
 
 /* Pause box */

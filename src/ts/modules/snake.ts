@@ -16,23 +16,6 @@ import {_table, Levels, STEPX, STEPY, tableX, tableY} from "./values";
 
 let isPaused
 let isFinished = false
-let scoreDom = document.querySelector('#score')
-let state = {
-  scoresInternal: 0,
-  scoresListener: function (val) {
-    scoreDom.innerHTML = `${val} ${val > 1 ? 'points' : 'point'}`
-  },
-  set scores(val) {
-    this.scoresInternal = val
-    this.scoresListener(val)
-  },
-  get scores() {
-    return this.scoresInternal
-  },
-  registerListener: function (listener) {
-    this.scoresListener = listener
-  }
-}
 
 export default class Snake {
   private readonly level: number
@@ -40,9 +23,11 @@ export default class Snake {
   private mouse
   private blocks
   private timer
+  private state
 
-  constructor(props) {
+  constructor(state, props) {
     this.level = props.level - 1 || 1
+    this.state = state
     this.initializeComponents()
   }
 
@@ -72,14 +57,13 @@ export default class Snake {
   }
 
   gameOver() {
-
     const gameOver_box = document.querySelector("#gameOver-box")
     const yesBtn = document.querySelector("#yesBtn")
     const answers = {
       yes: (event) => {
         const {keyCode} = event;
         if (!keyCode || (keyCode && keyCode === 32)) {
-          state.scores = 0
+          this.state.scores = 0
           this.initializeComponents()
           this.start()
           isFinished = false
@@ -109,7 +93,7 @@ export default class Snake {
     if (alignedX && alignedY) {
       this.increase()
       this.mouse.updatePosition()
-      state.scores = state.scores + Levels[this.level].score
+      this.state.scores += Levels[this.level].score
     }
 
     this.blocks.forEach(_ => {
@@ -151,17 +135,14 @@ export default class Snake {
             this.blocks[0].el.style.transform = 'rotate(-360deg)'
             break
         }
-
       } else {
         position = {
           x: this.blocks[i - 1]._position.x,
           y: this.blocks[i - 1]._position.y,
         }
       }
-
       b.updatePosition(position)
     })
-
   }
 
   increase() {
