@@ -18,30 +18,6 @@ __webpack_require__(/*! ../scss/style.scss */ "./src/scss/style.scss");
 
 /***/ }),
 
-/***/ "./src/ts/index.ts":
-/*!*************************!*\
-  !*** ./src/ts/index.ts ***!
-  \*************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var snake_1 = __webpack_require__(/*! ./modules/snake */ "./src/ts/modules/snake.ts");
-
-__webpack_require__(/*! ./bootstrap */ "./src/ts/bootstrap.ts");
-
-var state_1 = __webpack_require__(/*! ./modules/state */ "./src/ts/modules/state.ts");
-
-new snake_1["default"](new state_1["default"]("#score"), {
-  level: parseInt(prompt("Entrez un niveau entre 1 et 4"))
-}).start();
-
-/***/ }),
-
 /***/ "./src/ts/modules/Direction.ts":
 /*!*************************************!*\
   !*** ./src/ts/modules/Direction.ts ***!
@@ -53,7 +29,7 @@ new snake_1["default"](new state_1["default"]("#score"), {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = {
+exports["default"] = {
   LEFT: 4,
   RIGHT: 6,
   TOP: 8,
@@ -74,7 +50,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 Object.defineProperty(exports, "__esModule", ({
   value: true
@@ -147,7 +123,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 Object.defineProperty(exports, "__esModule", ({
   value: true
@@ -210,7 +186,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 Object.defineProperty(exports, "__esModule", ({
   value: true
@@ -527,7 +503,7 @@ var Snake = /*#__PURE__*/function () {
   return Snake;
 }();
 
-exports.default = Snake;
+exports["default"] = Snake;
 
 /***/ }),
 
@@ -543,7 +519,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 Object.defineProperty(exports, "__esModule", ({
   value: true
@@ -564,11 +540,6 @@ var State = /*#__PURE__*/function () {
   }
 
   _createClass(State, [{
-    key: "registerScoreListener",
-    value: function registerScoreListener(listener) {
-      this.scoreListener = listener;
-    }
-  }, {
     key: "scores",
     get: function get() {
       return this.scoreInternal;
@@ -577,12 +548,17 @@ var State = /*#__PURE__*/function () {
       this.scoreInternal = score;
       this.scoreListener(score);
     }
+  }, {
+    key: "registerScoreListener",
+    value: function registerScoreListener(listener) {
+      this.scoreListener = listener;
+    }
   }]);
 
   return State;
 }();
 
-exports.default = State;
+exports["default"] = State;
 
 /***/ }),
 
@@ -657,7 +633,7 @@ exports.STEPY = STEPY;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "css/app.css");
 
@@ -671,8 +647,9 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -715,7 +692,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
@@ -750,10 +727,30 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-/******/ 	// startup
-/******/ 	// Load entry module
-/******/ 	__webpack_require__("./src/ts/index.ts");
-/******/ 	// This entry module used 'exports' so it can't be inlined
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+var exports = __webpack_exports__;
+/*!*************************!*\
+  !*** ./src/ts/index.ts ***!
+  \*************************/
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var snake_1 = __webpack_require__(/*! ./modules/snake */ "./src/ts/modules/snake.ts");
+
+__webpack_require__(/*! ./bootstrap */ "./src/ts/bootstrap.ts");
+
+var state_1 = __webpack_require__(/*! ./modules/state */ "./src/ts/modules/state.ts");
+
+new snake_1["default"](new state_1["default"]("#score"), {
+  level: parseInt(prompt("Entrez un niveau entre 1 et 4"))
+}).start();
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=app.js.map
