@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snake</title>
-  <link rel="stylesheet" href="assets/css/animate.min.css">
-  <link rel="stylesheet" href="dist/css/app.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="dist/app.css">
 </head>
+
 <body>
 
-<div id="table">
+    <div id="table">
 
-  <ul>
-    <li>
-      Level : <strong id="level">0</strong>
-    </li>
-    <li>
-      Score : <strong id="score">0 point</strong>
-    </li>
-  </ul>
+        <ul>
+            <li>
+                Level : <strong id="level">0</strong>
+            </li>
+            <li>
+                Score : <strong id="score">0 point</strong>
+            </li>
+        </ul>
 
-</div>
+    </div>
 
-<div id="gameOver-box" class="gb-hidden">
-  <div>
-    Game Over
-  </div>
+    <div id="gameOver-box" class="gb-hidden">
+        <div>
+            Game Over
+        </div>
 
-  <div style="padding: 30px 0;font-size: 1.4rem;color: #6f6f6f;">
-    Do you want to restart ?
-  </div>
-  <div class="gameOver-box-bottom">
-    <button id="yesBtn" type="button" autofocus>
+        <div style="padding: 30px 0;font-size: 1.4rem;color: #6f6f6f;">
+            Do you want to restart ?
+        </div>
+        <div class="gameOver-box-bottom">
+            <button id="yesBtn" type="button" autofocus>
       Yes
     </button>
-  </div>
-</div>
-<div id="pause-box">
-  <h1>Paused !</h1>
-</div>
+        </div>
+    </div>
+    <div id="pause-box">
+        <h1>Paused !</h1>
+    </div>
 
-<script src="dist/app.js"></script>
+    <script src="dist/app.js"></script>
 </body>
+
 </html>
