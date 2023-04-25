@@ -24,7 +24,7 @@
         "@babel/cli": "^7.12.10",
         "@babel/core": "^7.12.10",
         "@babel/preset-env": "^7.12.11",
-        "@commitlint/cli": "^16.2.3",
+        "@commitlint/cli": "^17.6.1",
         "@commitlint/config-conventional": "^16.2.1",
         "babel-loader": "^8.2.2",
         "css-loader": "^5.0.1",
